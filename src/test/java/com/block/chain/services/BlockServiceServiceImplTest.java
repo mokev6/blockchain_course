@@ -39,4 +39,14 @@ public class BlockServiceServiceImplTest {
         logger.info(block.toString());
         Assert.assertTrue(block.getHash().substring(0, block.getDifficulty()).equals("0".repeat(block.getDifficulty())));
     }
+
+    @Test
+    public void shouldLowerDifficulty_whenMiningTakesTime() {
+        Assert.assertEquals(Long.valueOf(block.getDifficulty() - 1), Long.valueOf(blockServiceImpl.adjustDifficulty(block, block.getTimestamp() + 36000)));
+    }
+
+    @Test
+    public void shouldRaiseDifficulty_whenMiningGoesQuickly() {
+        Assert.assertEquals(Long.valueOf(block.getDifficulty() + 1), Long.valueOf(blockServiceImpl.adjustDifficulty(block, block.getTimestamp() + 1)));
+    }
 }

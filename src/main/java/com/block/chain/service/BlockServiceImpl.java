@@ -26,12 +26,14 @@ public class BlockServiceImpl implements BlockService {
         String hash ;
         Integer difficulty = lastBlock.getDifficulty();
 
-       do {
+        // *** PROOF OF WORK *** //
+        do {
             nonce ++;
             timestamp = System.currentTimeMillis();
             difficulty = adjustDifficulty(lastBlock, timestamp);
             hash = hash(timestamp, lastHash, nonce, data, difficulty);
-       } while (!hash.substring(0, difficulty).equals("0".repeat(difficulty)));
+        } while (!hash.substring(0, difficulty).equals("0".repeat(difficulty)));
+        // *** END PROOF OF WORK *** //
 
         return new Block(timestamp, lastHash, hash, data, nonce, difficulty);
     }
